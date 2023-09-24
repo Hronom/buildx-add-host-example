@@ -30,6 +30,13 @@ jobs:
           driver-opts: |
             network=buildx-add-host-example_default
 
+      - name: Get IP's of dependencies
+        id: dependencies-ipaddresses
+        run: |
+          echo "echo_server_1_ipaddress=$(docker inspect echo-server-1 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n')" >> $GITHUB_OUTPUT
+          echo "echo_server_2_ipaddress=$(docker inspect echo-server-2 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n')" >> $GITHUB_OUTPUT
+          echo "echo_server_3_ipaddress=$(docker inspect echo-server-3 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n')" >> $GITHUB_OUTPUT
+
       - name: Build container
         uses: docker/build-push-action@v5
         with:
@@ -37,6 +44,6 @@ jobs:
           push: false
           tags: hronom/buildx-add-host-example:latest
           add-hosts: |
-            echo-server-1:$(docker inspect echo-server-1 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n')
-            echo-server-2:$(docker inspect echo-server-2 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n')
-            echo-server-3:$(docker inspect echo-server-3 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n')
+            echo-server-1:${{ steps.dependencies-ipaddresses.outputs.echo_server_1_ipaddress }}
+            echo-server-2:${{ steps.dependencies-ipaddresses.outputs.echo_server_2_ipaddress }}
+            echo-server-3:${{ steps.dependencies-ipaddresses.outputs.echo_server_3_ipaddress }}
