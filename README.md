@@ -55,5 +55,5 @@ docker buildx rm
 docker compose down -v
 ```
 
-## GitHub
+## GitHub Actions
 Check `Build` workflow.
