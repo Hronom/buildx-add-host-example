@@ -40,10 +40,10 @@ docker buildx inspect --bootstrap
 
 ```shell
 docker buildx build -f Dockerfile \
-            --add-host echo-server-1:$(docker inspect echo-server-1 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n') \
-            --add-host echo-server-2:$(docker inspect echo-server-2 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n') \
-            --add-host echo-server-3:$(docker inspect echo-server-3 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n') \
-            .
+--add-host echo-server-1:$(docker inspect echo-server-1 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n') \
+--add-host echo-server-2:$(docker inspect echo-server-2 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n') \
+--add-host echo-server-3:$(docker inspect echo-server-3 | jq '.[0].NetworkSettings.Networks["buildx-add-host-example_default"].IPAddress' | tr -d '"\n') \
+.
 ```
 
 Cleanup:
