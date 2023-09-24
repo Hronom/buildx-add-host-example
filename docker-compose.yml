@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  echo-server-1:
+    container_name: echo-server-1
+    image: ealen/echo-server
+    ports:
+      - "8081:80"
+
+  echo-server-2:
+    container_name: echo-server-2
+    image: ealen/echo-server
+    ports:
+      - "8082:80"
+
+  echo-server-3:
+    container_name: echo-server-3
+    image: ealen/echo-server
+    ports:
+      - "8083:80"

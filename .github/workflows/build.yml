@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Start dependencies
+        run: |
+          docker compose up -d
+
+      - name: Check what is going on with containers and network
+        run: |
+          docker ps
+          docker network ls
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: |
+            network=buildx-add-host-example_default
+
+      - name: Build container
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: hronom/buildx-add-host-example:latest
